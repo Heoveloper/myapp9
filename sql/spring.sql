@@ -1,95 +1,95 @@
---í…Œì´ë¸” ì‚­ì œ
+--Å×ÀÌºí »èÁ¦
 drop table uploadfile;
 drop table bbs;
 drop table member;
 drop table notice;
 drop table code;
 
---ì‹œí€€ìŠ¤ì‚­ì œ
+--½ÃÄö½º»èÁ¦
 drop sequence member_member_id_seq;
 drop sequence notice_notice_id_seq;
 drop sequence bbs_bbs_id_seq;
 drop sequence uploadfile_uploadfile_id_seq;
 
 -------
---ì½”ë“œ
+--ÄÚµå
 -------
 create table code(
-    code_id     varchar2(11),       --ì½”ë“œ
-    decode      varchar2(30),       --ì½”ë“œëª…
-    discript    clob,               --ì½”ë“œì„¤ëª…
-    pcode_id    varchar2(11),       --ìƒìœ„ì½”ë“œ
-    useyn       char(1) default 'Y',            --ì‚¬ìš©ì—¬ë¶€ (ì‚¬ìš©:'Y',ë¯¸ì‚¬ìš©:'N')
-    cdate       timestamp default systimestamp,         --ìƒì„±ì¼ì‹œ
-    udate       timestamp default systimestamp          --ìˆ˜ì •ì¼ì‹œ
+    code_id     varchar2(11),       --ÄÚµå
+    decode      varchar2(30),       --ÄÚµå¸í
+    discript    clob,               --ÄÚµå¼³¸í
+    pcode_id    varchar2(11),       --»óÀ§ÄÚµå
+    useyn       char(1) default 'Y',            --»ç¿ë¿©ºÎ (»ç¿ë:'Y',¹Ì»ç¿ë:'N')
+    cdate       timestamp default systimestamp,         --»ı¼ºÀÏ½Ã
+    udate       timestamp default systimestamp          --¼öÁ¤ÀÏ½Ã
 );
---ê¸°ë³¸í‚¤
+--±âº»Å°
 alter table code add Constraint code_code_id_pk primary key (code_id);
 
---ì™¸ë˜í‚¤
+--¿Ü·¡Å°
 alter table code add constraint bbs_pcode_id_fk
     foreign key(pcode_id) references code(code_id);
 
---ì œì•½ì¡°ê±´
+--Á¦¾àÁ¶°Ç
 alter table code modify decode constraint code_decode_nn not null;
 alter table code modify useyn constraint code_useyn_nn not null;
 alter table code add constraint code_useyn_ck check(useyn in ('Y','N'));
 
---ìƒ˜í”Œë°ì´í„° of code
-insert into code (code_id,decode,pcode_id,useyn) values ('B01','ê²Œì‹œíŒ',null,'Y');
+--»ùÇÃµ¥ÀÌÅÍ of code
+insert into code (code_id,decode,pcode_id,useyn) values ('B01','°Ô½ÃÆÇ',null,'Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('B0101','Spring','B01','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('B0102','Datbase','B01','Y');
 insert into code (code_id,decode,pcode_id,useyn) values ('B0103','Q_A','B01','Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('M01','íšŒì›êµ¬ë¶„',null,'Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('M0101','ì¼ë°˜','M01','Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('M0102','ìš°ìˆ˜','M01','Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('M01A1','ê´€ë¦¬ì1','M01','Y');
-insert into code (code_id,decode,pcode_id,useyn) values ('M01A2','ê´€ë¦¬ì2','M01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('M01','È¸¿ø±¸ºĞ',null,'Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('M0101','ÀÏ¹İ','M01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('M0102','¿ì¼ö','M01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('M01A1','°ü¸®ÀÚ1','M01','Y');
+insert into code (code_id,decode,pcode_id,useyn) values ('M01A2','°ü¸®ÀÚ2','M01','Y');
 commit;
 
 -------
---íšŒì›
+--È¸¿ø
 -------
 create table member (
-    member_id   number,         --ë‚´ë¶€ ê´€ë¦¬ ì•„ì´ë””
-    email       varchar2(50),   --ë¡œê¸´ ì•„ì´ë””
-    passwd      varchar2(12),   --ë¡œê¸´ ë¹„ë°€ë²ˆí˜¸
-    nickname    varchar2(30),   --ë³„ì¹­
-    gender      varchar2(6),    --ì„±ë³„
-    hobby       varchar2(300),  --ì·¨ë¯¸
-    region      varchar2(30),   --ì§€ì—­
-    gubun       varchar2(11)   default 'M0101', --íšŒì›êµ¬ë¶„ (ì¼ë°˜,ìš°ìˆ˜,ê´€ë¦¬ì..)
-    pic         blob,            --ì‚¬ì§„
-    cdate       timestamp default systimestamp,         --ìƒì„±ì¼ì‹œ
-    udate       timestamp default systimestamp          --ìˆ˜ì •ì¼ì‹œ
+    member_id   number,         --³»ºÎ °ü¸® ¾ÆÀÌµğ
+    email       varchar2(50),   --·Î±ä ¾ÆÀÌµğ
+    passwd      varchar2(12),   --·Î±ä ºñ¹Ğ¹øÈ£
+    nickname    varchar2(30),   --º°Äª
+    gender      varchar2(6),    --¼ºº°
+    hobby       varchar2(300),  --Ãë¹Ì
+    region      varchar2(30),   --Áö¿ª
+    gubun       varchar2(11)   default 'M0101', --È¸¿ø±¸ºĞ (ÀÏ¹İ,¿ì¼ö,°ü¸®ÀÚ..)
+    pic         blob,            --»çÁø
+    cdate       timestamp default systimestamp,         --»ı¼ºÀÏ½Ã
+    udate       timestamp default systimestamp          --¼öÁ¤ÀÏ½Ã
 );
---ê¸°ë³¸í‚¤ìƒì„±
+--±âº»Å°»ı¼º
 alter table member add Constraint member_member_id_pk primary key (member_id);
 
---ì œì•½ì¡°ê±´
+--Á¦¾àÁ¶°Ç
 alter table member add constraint member_gubun_fk
     foreign key(gubun) references code(code_id);
 alter table member modify email constraint member_passwd_uk unique;
 alter table member modify email constraint member_passwd_nn not null;
-alter table member add constraint member_gender_ck check (gender in ('ë‚¨ì','ì—¬ì'));
+alter table member add constraint member_gender_ck check (gender in ('³²ÀÚ','¿©ÀÚ'));
 
---ì‹œí€€ìŠ¤
+--½ÃÄö½º
 create sequence member_member_id_seq;
 desc member;
 
 insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'test1@kh.com', '1234', 'í…ŒìŠ¤í„°1','ë‚¨ì','ê³¨í”„,ë…ì„œ','ìš¸ì‚°', 'M0101');
+    values(member_member_id_seq.nextval, 'test1@kh.com', '1234', 'Å×½ºÅÍ1','³²ÀÚ','°ñÇÁ,µ¶¼­','¿ï»ê', 'M0101');
 insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'test2@kh.com', '1234', 'í…ŒìŠ¤í„°2','ì—¬ì','ê³¨í”„,ìˆ˜ì˜','ë¶€ì‚°', 'M0102');
+    values(member_member_id_seq.nextval, 'test2@kh.com', '1234', 'Å×½ºÅÍ2','¿©ÀÚ','°ñÇÁ,¼ö¿µ','ºÎ»ê', 'M0102');
 insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'admin1@kh.com', '1234','ê´€ë¦¬ì1', 'ë‚¨ì','ë“±ì‚°,ë…ì„œ','ì„œìš¸','M01A1');
+    values(member_member_id_seq.nextval, 'admin1@kh.com', '1234','°ü¸®ÀÚ1', '³²ÀÚ','µî»ê,µ¶¼­','¼­¿ï','M01A1');
 insert into member (member_id,email,passwd,nickname,gender,hobby,region,gubun)
-    values(member_member_id_seq.nextval, 'admin2@kh.com', '1234','ê´€ë¦¬ì2', 'ì—¬ì','ê³¨í”„,ë…ì„œ','ëŒ€êµ¬','M01A2');
+    values(member_member_id_seq.nextval, 'admin2@kh.com', '1234','°ü¸®ÀÚ2', '¿©ÀÚ','°ñÇÁ,µ¶¼­','´ë±¸','M01A2');
 select * from member;
 commit;
 
 ---------
---ê³µì§€ì‚¬í•­
+--°øÁö»çÇ×
 ---------
 create table notice(
     notice_id    number(8),
@@ -100,15 +100,15 @@ create table notice(
     cdate       timestamp default systimestamp,
     udate       timestamp default systimestamp
 );
---ê¸°ë³¸í‚¤ìƒì„±
+--±âº»Å°»ı¼º
 alter table notice add Constraint notice_notice_id_pk primary key (notice_id);
 
---ì œì•½ì¡°ê±´ not null
+--Á¦¾àÁ¶°Ç not null
 alter table notice modify subject constraint notice_subject_nn not null;
 alter table notice modify content constraint notice_content_nn not null;
 alter table notice modify author constraint notice_author_nn not null;
 
---ì‹œí€€ìŠ¤
+--½ÃÄö½º
 create sequence notice_notice_id_seq
 start with 1
 increment by 1
@@ -117,29 +117,29 @@ maxvalue 99999999
 nocycle;
 
 -------
---ê²Œì‹œíŒ
+--°Ô½ÃÆÇ
 -------
 create table bbs(
-    bbs_id      number(10),         --ê²Œì‹œê¸€ ë²ˆí˜¸
-    bcategory   varchar2(11),       --ë¶„ë¥˜ì¹´í…Œê³ ë¦¬
-    title       varchar2(150),      --ì œëª©
+    bbs_id      number(10),         --°Ô½Ã±Û ¹øÈ£
+    bcategory   varchar2(11),       --ºĞ·ùÄ«Å×°í¸®
+    title       varchar2(150),      --Á¦¸ñ
     email       varchar2(50),       --email
-    nickname    varchar2(30),       --ë³„ì¹­
-    hit         number(5) default 0,          --ì¡°íšŒìˆ˜
-    bcontent    clob,               --ë³¸ë¬¸
-    pbbs_id     number(10),         --ë¶€ëª¨ ê²Œì‹œê¸€ë²ˆí˜¸
-    bgroup      number(10),         --ë‹µê¸€ê·¸ë£¹
-    step        number(3) default 0,          --ë‹µê¸€ë‹¨ê³„
-    bindent     number(3) default 0,          --ë‹µê¸€ë“¤ì—¬ì“°ê¸°
-    status      char(1),               --ë‹µê¸€ìƒíƒœ  (ì‚­ì œ: 'D', ì„ì‹œì €ì¥: 'I')
-    cdate       timestamp default systimestamp,         --ìƒì„±ì¼ì‹œ
-    udate       timestamp default systimestamp          --ìˆ˜ì •ì¼ì‹œ
+    nickname    varchar2(30),       --º°Äª
+    hit         number(5) default 0,          --Á¶È¸¼ö
+    bcontent    clob,               --º»¹®
+    pbbs_id     number(10),         --ºÎ¸ğ °Ô½Ã±Û¹øÈ£
+    bgroup      number(10),         --´ä±Û±×·ì
+    step        number(3) default 0,          --´ä±Û´Ü°è
+    bindent     number(3) default 0,          --´ä±Ûµé¿©¾²±â
+    status      char(1),               --´ä±Û»óÅÂ  (»èÁ¦: 'D', ÀÓ½ÃÀúÀå: 'I')
+    cdate       timestamp default systimestamp,         --»ı¼ºÀÏ½Ã
+    udate       timestamp default systimestamp          --¼öÁ¤ÀÏ½Ã
 );
 
---ê¸°ë³¸í‚¤
+--±âº»Å°
 alter table bbs add Constraint bbs_bbs_id_pk primary key (bbs_id);
 
---ì™¸ë˜í‚¤
+--¿Ü·¡Å°
 alter table bbs add constraint bbs_bcategory_fk
     foreign key(bcategory) references code(code_id);
 alter table bbs add constraint bbs_pbbs_id_fk
@@ -147,38 +147,38 @@ alter table bbs add constraint bbs_pbbs_id_fk
 alter table bbs add constraint bbs_email_fk
     foreign key(email) references member(email);
 
---ì œì•½ì¡°ê±´
+--Á¦¾àÁ¶°Ç
 alter table bbs modify bcategory constraint bbs_bcategory_nn not null;
 alter table bbs modify title constraint bbs_title_nn not null;
 alter table bbs modify email constraint bbs_email_nn not null;
 alter table bbs modify nickname constraint bbs_nickname_nn not null;
 alter table bbs modify bcontent constraint bbs_bcontent_nn not null;
 
---ì‹œí€€ìŠ¤
+--½ÃÄö½º
 create sequence bbs_bbs_id_seq;
 
 ---------
---ì²¨ë¶€íŒŒì¼
+--Ã·ºÎÆÄÀÏ
 ---------
 create table uploadfile(
-    uploadfile_id   number(10),     --íŒŒì¼ì•„ì´ë””
-    code            varchar2(11),   --ë¶„ë¥˜ì½”ë“œ
-    rid             varchar2(10),     --ì°¸ì¡°ë²ˆí˜¸(ê²Œì‹œê¸€ë²ˆí˜¸ë“±)
-    store_filename  varchar2(100),   --ì„œë²„ë³´ê´€íŒŒì¼ëª…
-    upload_filename varchar2(100),   --ì—…ë¡œë“œíŒŒì¼ëª…(ìœ ì €ê°€ ì—…ë¡œë“œí•œíŒŒì¼ëª…)
-    fsize           varchar2(45),   --ì—…ë¡œë“œíŒŒì¼í¬ê¸°(ë‹¨ìœ„byte)
-    ftype           varchar2(100),   --íŒŒì¼ìœ í˜•(mimetype)
-    cdate           timestamp default systimestamp, --ë“±ë¡ì¼ì‹œ
-    udate           timestamp default systimestamp  --ìˆ˜ì •ì¼ì‹œ
+    uploadfile_id   number(10),     --ÆÄÀÏ¾ÆÀÌµğ
+    code            varchar2(11),   --ºĞ·ùÄÚµå
+    rid             varchar2(10),     --ÂüÁ¶¹øÈ£(°Ô½Ã±Û¹øÈ£µî)
+    store_filename  varchar2(100),   --¼­¹öº¸°üÆÄÀÏ¸í
+    upload_filename varchar2(100),   --¾÷·ÎµåÆÄÀÏ¸í(À¯Àú°¡ ¾÷·ÎµåÇÑÆÄÀÏ¸í)
+    fsize           varchar2(45),   --¾÷·ÎµåÆÄÀÏÅ©±â(´ÜÀ§byte)
+    ftype           varchar2(100),   --ÆÄÀÏÀ¯Çü(mimetype)
+    cdate           timestamp default systimestamp, --µî·ÏÀÏ½Ã
+    udate           timestamp default systimestamp  --¼öÁ¤ÀÏ½Ã
 );
---ê¸°ë³¸í‚¤
+--±âº»Å°
 alter table uploadfile add constraint uploadfile_uploadfile_id_pk primary key(uploadfile_id);
 
---ì™¸ë˜í‚¤
+--¿Ü·¡Å°
 alter table uploadfile add constraint uploadfile_uploadfile_id_fk
     foreign key(code) references code(code_id);
 
---ì œì•½ì¡°ê±´
+--Á¦¾àÁ¶°Ç
 alter table uploadfile modify code constraint uploadfile_code_nn not null;
 alter table uploadfile modify rid constraint uploadfile_rid_nn not null;
 alter table uploadfile modify store_filename constraint uploadfile_store_filename_nn not null;
@@ -186,6 +186,5 @@ alter table uploadfile modify upload_filename constraint uploadfile_upload_filen
 alter table uploadfile modify fsize constraint uploadfile_fsize_nn not null;
 alter table uploadfile modify ftype constraint uploadfile_ftype_nn not null;
 
---ì‹œí€€ìŠ¤
+--½ÃÄö½º
 create sequence uploadfile_uploadfile_id_seq;
-
